@@ -44,6 +44,7 @@ namespace miniRenderer
                 0, 1, 2,
                 0, 0, 1
             );
+            
             Matrix4X4 homogeneous = new Matrix4X4(new Vector3((float)Math.Cos(Rad45), -(float)Math.Sin(Rad45), 1), new Vector3((float)Math.Sin(Rad45), (float)Math.Cos(Rad45), 2), new Vector3(0, 0, 1));
 
             var fin = homogeneous * pointPa;

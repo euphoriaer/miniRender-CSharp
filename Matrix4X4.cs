@@ -89,44 +89,53 @@ namespace miniRenderer
             this.m44 = m44;
         }
 
-        private static double SixNumMult(double m11, double m12, double m13, double m14, double m21, double m22, double m23,
+        private static double NumMult(double m11, double m12, double m13, double m14, double m21, double m22, double m23,
             double m24)
         {
             return m11 * m21 + m12 * m22 + m13 * m23 + m14 * m24;
         }
 
-        private static double SixNumMult(double m11, double m12, double m13, double m21, double m22, double m23)
+        private static double NumMult(double m11, double m12, double m13, double m21, double m22, double m23)
         {
             return m11 * m21 + m12 * m22 + m13 * m23;
         }
 
+        public static Vector4 operator *(Matrix4X4 matrix1, Vector4 vector)
+        {
+            double rem11 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, vector.X, vector.Y, vector.Z, vector.W);
+            double rem12 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, vector.X, vector.Y, vector.Z, vector.W);
+            double rem13 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, vector.X, vector.Y, vector.Z, vector.W);
+            double rem14 = NumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, vector.X, vector.Y, vector.Z, vector.W);
+            return new Vector4((float)rem11, (float)rem12, (float)rem13, (float)rem14);
+        }
+
         public static Vector3 operator *(Matrix4X4 matrix1, Vector3 vector)
         {
-            double rem11 = SixNumMult(matrix1.m11, matrix1.m12, matrix1.m13, vector.X, vector.Y, vector.Z);
-            double rem12 = SixNumMult(matrix1.m21, matrix1.m22, matrix1.m23, vector.X, vector.Y, vector.Z);
-            double rem13 = SixNumMult(matrix1.m31, matrix1.m32, matrix1.m33, vector.X, vector.Y, vector.Z);
+            double rem11 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, vector.X, vector.Y, vector.Z);
+            double rem12 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, vector.X, vector.Y, vector.Z);
+            double rem13 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, vector.X, vector.Y, vector.Z);
             return new Vector3((float)rem11, (float)rem12, (float)rem13);
         }
 
         public static Matrix4X4 operator *(Matrix4X4 matrix1, Matrix4X4 matrix2)
         {
             //按行计算
-            double rem11 = SixNumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.m11, matrix2.m21, matrix2.m31, matrix2.m41);
-            double rem12 = SixNumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.m12, matrix2.m22, matrix2.m32, matrix2.m42);
-            double rem13 = SixNumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.m13, matrix2.m23, matrix2.m33, matrix2.m43);
-            double rem14 = SixNumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.m14, matrix2.m24, matrix2.m34, matrix2.m44);
-            double rem21 = SixNumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.m11, matrix2.m21, matrix2.m31, matrix2.m41);
-            double rem22 = SixNumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.m12, matrix2.m22, matrix2.m32, matrix2.m42);
-            double rem23 = SixNumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.m13, matrix2.m23, matrix2.m33, matrix2.m43);
-            double rem24 = SixNumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.m14, matrix2.m24, matrix2.m34, matrix2.m44);
-            double rem31 = SixNumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.m11, matrix2.m21, matrix2.m31, matrix2.m41);
-            double rem32 = SixNumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.m12, matrix2.m22, matrix2.m32, matrix2.m42);
-            double rem33 = SixNumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.m13, matrix2.m23, matrix2.m33, matrix2.m43);
-            double rem34 = SixNumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.m14, matrix2.m24, matrix2.m34, matrix2.m44);
-            double rem41 = SixNumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.m11, matrix2.m21, matrix2.m31, matrix2.m41);
-            double rem42 = SixNumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.m12, matrix2.m22, matrix2.m32, matrix2.m42);
-            double rem43 = SixNumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.m13, matrix2.m23, matrix2.m33, matrix2.m43);
-            double rem44 = SixNumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.m14, matrix2.m24, matrix2.m34, matrix2.m44);
+            double rem11 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.m11, matrix2.m21, matrix2.m31, matrix2.m41);
+            double rem12 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.m12, matrix2.m22, matrix2.m32, matrix2.m42);
+            double rem13 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.m13, matrix2.m23, matrix2.m33, matrix2.m43);
+            double rem14 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.m14, matrix2.m24, matrix2.m34, matrix2.m44);
+            double rem21 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.m11, matrix2.m21, matrix2.m31, matrix2.m41);
+            double rem22 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.m12, matrix2.m22, matrix2.m32, matrix2.m42);
+            double rem23 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.m13, matrix2.m23, matrix2.m33, matrix2.m43);
+            double rem24 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.m14, matrix2.m24, matrix2.m34, matrix2.m44);
+            double rem31 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.m11, matrix2.m21, matrix2.m31, matrix2.m41);
+            double rem32 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.m12, matrix2.m22, matrix2.m32, matrix2.m42);
+            double rem33 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.m13, matrix2.m23, matrix2.m33, matrix2.m43);
+            double rem34 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.m14, matrix2.m24, matrix2.m34, matrix2.m44);
+            double rem41 = NumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.m11, matrix2.m21, matrix2.m31, matrix2.m41);
+            double rem42 = NumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.m12, matrix2.m22, matrix2.m32, matrix2.m42);
+            double rem43 = NumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.m13, matrix2.m23, matrix2.m33, matrix2.m43);
+            double rem44 = NumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.m14, matrix2.m24, matrix2.m34, matrix2.m44);
             Matrix4X4 retu = new Matrix4X4(rem11, rem12, rem13, rem14, rem21, rem22, rem23, rem24, rem31, rem32, rem33, rem34, rem41, rem42, rem43, rem44);
             return retu;
         }
@@ -150,6 +159,29 @@ namespace miniRenderer
             double rem42 = matrix1.m42 + matrix2.m42;
             double rem43 = matrix1.m43 + matrix2.m43;
             double rem44 = matrix1.m44 + matrix2.m44;
+            Matrix4X4 retu = new Matrix4X4(rem11, rem12, rem13, rem14, rem21, rem22, rem23, rem24, rem31, rem32, rem33, rem34, rem41, rem42, rem43, rem44);
+            return retu;
+        }
+
+        public static Matrix4X4 operator -(Matrix4X4 matrix1, Matrix4X4 matrix2)
+        {
+            //按行计算
+            double rem11 = matrix1.m11 - matrix2.m11;
+            double rem12 = matrix1.m12 - matrix2.m12;
+            double rem13 = matrix1.m13 - matrix2.m13;
+            double rem14 = matrix1.m14 - matrix2.m14;
+            double rem21 = matrix1.m21 - matrix2.m21;
+            double rem22 = matrix1.m22 - matrix2.m22;
+            double rem23 = matrix1.m23 - matrix2.m23;
+            double rem24 = matrix1.m24 - matrix2.m24;
+            double rem31 = matrix1.m31 - matrix2.m31;
+            double rem32 = matrix1.m32 - matrix2.m32;
+            double rem33 = matrix1.m33 - matrix2.m33;
+            double rem34 = matrix1.m34 - matrix2.m34;
+            double rem41 = matrix1.m41 - matrix2.m41;
+            double rem42 = matrix1.m42 - matrix2.m42;
+            double rem43 = matrix1.m43 - matrix2.m43;
+            double rem44 = matrix1.m44 - matrix2.m44;
             Matrix4X4 retu = new Matrix4X4(rem11, rem12, rem13, rem14, rem21, rem22, rem23, rem24, rem31, rem32, rem33, rem34, rem41, rem42, rem43, rem44);
             return retu;
         }
