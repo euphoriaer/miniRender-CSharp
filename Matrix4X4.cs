@@ -25,6 +25,26 @@ namespace miniRenderer
         public double m43;
         public double m44;
 
+        public Matrix4X4(Matrix4x4 matrix4X4)
+        {
+            this.m11 =matrix4X4.M11;
+            this.m12 =matrix4X4.M12;
+            this.m13 =matrix4X4.M13;
+            this.m14 =matrix4X4.M14;
+            this.m21 =matrix4X4.M21;
+            this.m22 =matrix4X4.M22;
+            this.m23 =matrix4X4.M23;
+            this.m24 =matrix4X4.M24;
+            this.m31 =matrix4X4.M31;
+            this.m32 =matrix4X4.M32;
+            this.m33 =matrix4X4.M33;
+            this.m34 =matrix4X4.M34;
+            this.m41 =matrix4X4.M41;
+            this.m42 =matrix4X4.M42;
+            this.m43 =matrix4X4.M43;
+            this.m44 =matrix4X4.M44;
+        }
+
         /// <summary>
         /// 构造秩为3的矩阵
         /// </summary>
@@ -184,6 +204,87 @@ namespace miniRenderer
             double rem44 = matrix1.m44 - matrix2.m44;
             Matrix4X4 retu = new Matrix4X4(rem11, rem12, rem13, rem14, rem21, rem22, rem23, rem24, rem31, rem32, rem33, rem34, rem41, rem42, rem43, rem44);
             return retu;
+        }
+
+
+        //
+        public static Matrix4X4 operator *(Matrix4X4 matrix1, Matrix4x4 matrix2)
+        {
+            //按行计算
+            double rem11 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.M11, matrix2.M21, matrix2.M31, matrix2.M41);
+            double rem12 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.M12, matrix2.M22, matrix2.M32, matrix2.M42);
+            double rem13 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.M13, matrix2.M23, matrix2.M33, matrix2.M43);
+            double rem14 = NumMult(matrix1.m11, matrix1.m12, matrix1.m13, matrix1.m14, matrix2.M14, matrix2.M24, matrix2.M34, matrix2.M44);
+            double rem21 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.M11, matrix2.M21, matrix2.M31, matrix2.M41);
+            double rem22 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.M12, matrix2.M22, matrix2.M32, matrix2.M42);
+            double rem23 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.M13, matrix2.M23, matrix2.M33, matrix2.M43);
+            double rem24 = NumMult(matrix1.m21, matrix1.m22, matrix1.m23, matrix1.m24, matrix2.M14, matrix2.M24, matrix2.M34, matrix2.M44);
+            double rem31 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.M11, matrix2.M21, matrix2.M31, matrix2.M41);
+            double rem32 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.M12, matrix2.M22, matrix2.M32, matrix2.M42);
+            double rem33 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.M13, matrix2.M23, matrix2.M33, matrix2.M43);
+            double rem34 = NumMult(matrix1.m31, matrix1.m32, matrix1.m33, matrix1.m34, matrix2.M14, matrix2.M24, matrix2.M34, matrix2.M44);
+            double rem41 = NumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.M11, matrix2.M21, matrix2.M31, matrix2.M41);
+            double rem42 = NumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.M12, matrix2.M22, matrix2.M32, matrix2.M42);
+            double rem43 = NumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.M13, matrix2.M23, matrix2.M33, matrix2.M43);
+            double rem44 = NumMult(matrix1.m41, matrix1.m42, matrix1.m43, matrix1.m44, matrix2.M14, matrix2.M24, matrix2.M34, matrix2.M44);
+            Matrix4X4 retu = new Matrix4X4(rem11, rem12, rem13, rem14, rem21, rem22, rem23, rem24, rem31, rem32, rem33, rem34, rem41, rem42, rem43, rem44);
+            return retu;
+        }
+
+        public static Matrix4X4 operator +(Matrix4X4 matrix1, Matrix4x4 matrix2)
+        {
+            //按行计算
+            double rem11 = matrix1.m11 + matrix2.M11;
+            double rem12 = matrix1.m12 + matrix2.M12;
+            double rem13 = matrix1.m13 + matrix2.M13;
+            double rem14 = matrix1.m14 + matrix2.M14;
+            double rem21 = matrix1.m21 + matrix2.M21;
+            double rem22 = matrix1.m22 + matrix2.M22;
+            double rem23 = matrix1.m23 + matrix2.M23;
+            double rem24 = matrix1.m24 + matrix2.M24;
+            double rem31 = matrix1.m31 + matrix2.M31;
+            double rem32 = matrix1.m32 + matrix2.M32;
+            double rem33 = matrix1.m33 + matrix2.M33;
+            double rem34 = matrix1.m34 + matrix2.M34;
+            double rem41 = matrix1.m41 + matrix2.M41;
+            double rem42 = matrix1.m42 + matrix2.M42;
+            double rem43 = matrix1.m43 + matrix2.M43;
+            double rem44 = matrix1.m44 + matrix2.M44;
+            Matrix4X4 retu = new Matrix4X4(rem11, rem12, rem13, rem14, rem21, rem22, rem23, rem24, rem31, rem32, rem33, rem34, rem41, rem42, rem43, rem44);
+            return retu;
+        }
+
+        public static Matrix4X4 operator -(Matrix4X4 matrix1, Matrix4x4 matrix2)
+        {
+            //按行计算
+            double rem11 = matrix1.m11 - matrix2.M11;
+            double rem12 = matrix1.m12 - matrix2.M12;
+            double rem13 = matrix1.m13 - matrix2.M13;
+            double rem14 = matrix1.m14 - matrix2.M14;
+            double rem21 = matrix1.m21 - matrix2.M21;
+            double rem22 = matrix1.m22 - matrix2.M22;
+            double rem23 = matrix1.m23 - matrix2.M23;
+            double rem24 = matrix1.m24 - matrix2.M24;
+            double rem31 = matrix1.m31 - matrix2.M31;
+            double rem32 = matrix1.m32 - matrix2.M32;
+            double rem33 = matrix1.m33 - matrix2.M33;
+            double rem34 = matrix1.m34 - matrix2.M34;
+            double rem41 = matrix1.m41 - matrix2.M41;
+            double rem42 = matrix1.m42 - matrix2.M42;
+            double rem43 = matrix1.m43 - matrix2.M43;
+            double rem44 = matrix1.m44 - matrix2.M44;
+            Matrix4X4 retu = new Matrix4X4(rem11, rem12, rem13, rem14, rem21, rem22, rem23, rem24, rem31, rem32, rem33, rem34, rem41, rem42, rem43, rem44);
+            return retu;
+        }
+
+        public static implicit operator Matrix4x4(Matrix4X4 v)
+        {
+            return v;
+        }
+
+        public static implicit operator Matrix4X4(Matrix4x4 v)
+        {
+            return new Matrix4X4(v);
         }
 
         public override string ToString()

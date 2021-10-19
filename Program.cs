@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Numerics;
 
 namespace miniRenderer
@@ -10,7 +11,48 @@ namespace miniRenderer
 
         public static void Main(string[] args)
         {
+            //需要一个窗口显示
+
+            //
             
+        }
+
+   
+
+        Matrix4X4 get_model_matrix(float rotation_angle)
+        {
+            Matrix4X4 model = Matrix4x4.Identity;
+            return model;
+        }
+
+        public Matrix4X4 get_view_matrix(Vector3 eye_pos)
+        {
+            var view = Matrix4x4.Identity;
+            Matrix4X4 translate = new Matrix4X4(
+                1, 0, 0, -eye_pos.X, 
+                0, 1, 0, -eye_pos.Y,
+                0, 0, 1, -eye_pos.Z,
+                0, 0, 0, 1);
+            view = translate * view;
+            return view;
+        }
+
+        public Matrix4X4 get_projection_matrix(float eye_fov, float aspect_ratio,
+                                      float zNear, float zFar)
+        {
+            // Students will implement this function
+
+            Matrix4X4 projection = new Matrix4X4();
+
+            // TODO: Implement this function
+            // Create the projection matrix for the given parameters.
+            // Then return it.
+
+            return projection;
+        }
+
+        private static void MatrixTest()
+        {
             Console.WriteLine("Hello World!");
             float a = 1f, b = 2f;
             Math.Sqrt(b);
@@ -44,7 +86,7 @@ namespace miniRenderer
                 0, 1, 2,
                 0, 0, 1
             );
-            
+
             Matrix4X4 homogeneous = new Matrix4X4(new Vector3((float)Math.Cos(Rad45), -(float)Math.Sin(Rad45), 1), new Vector3((float)Math.Sin(Rad45), (float)Math.Cos(Rad45), 2), new Vector3(0, 0, 1));
 
             var fin = homogeneous * pointPa;
